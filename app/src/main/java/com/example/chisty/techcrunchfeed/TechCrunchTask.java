@@ -3,6 +3,7 @@ package com.example.chisty.techcrunchfeed;
 import android.os.AsyncTask;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -39,8 +40,12 @@ public class TechCrunchTask extends AsyncTask<Void, Void, Void> {
         Helper.Log("" + rootElement.getTagName());
         NodeList itemList= rootElement.getElementsByTagName("item");
 
-        NodeList itemChildren= null;
+        NodeList itemChildren;
         Node currentItem, currentChild;
+        NamedNodeMap mediaThumbnailAttributes;
+        Node currentAttribute;
+        int count=0;
+
         for (int i=0; i<itemList.getLength(); i++){
             currentItem= itemList.item(i);
             itemChildren= currentItem.getChildNodes();
@@ -48,9 +53,23 @@ public class TechCrunchTask extends AsyncTask<Void, Void, Void> {
             for(int j=0; j<itemChildren.getLength(); j++){
                 currentChild= itemChildren.item(j);
                 if(currentChild.getNodeName().equalsIgnoreCase("title")){
-                    Helper.Log(currentChild.getTextContent());
+//                    Helper.Log(currentChild.getTextContent());
+                }
+                if(currentChild.getNodeName().equalsIgnoreCase("pubDate")){
+//                    Helper.Log(currentChild.getTextContent());
+                }
+                if(currentChild.getNodeName().equalsIgnoreCase("description")){
+//                    Helper.Log(currentChild.getTextContent());
+                }
+                if(currentChild.getNodeName().equalsIgnoreCase("media:thumbnail")){
+                    count++;
+                    if(count == 2) {
+                        Helper.Log(currentChild.getAttributes().item(0).getTextContent());
+                    }
+
                 }
             }
+            count= 0;
         }
     }
 
