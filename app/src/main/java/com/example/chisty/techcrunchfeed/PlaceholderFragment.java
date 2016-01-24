@@ -15,6 +15,19 @@ public class PlaceholderFragment extends Fragment {
     public PlaceholderFragment() {
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            callback= (IResultCallback)context;
+            if(task != null){
+                task.OnAttach(callback);
+            }
+        }
+        catch (Exception e){
+            throw e;
+        }
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -26,12 +39,22 @@ public class PlaceholderFragment extends Fragment {
         if(task != null){
             task.cancel(true);
         }else{
-            task= new TechCrunchTask();
+            task= new TechCrunchTask(callback);
             task.execute();
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        callback= null;
+        if(task != null){
+            task.OnDetach();
         }
     }
 
     //region Property
     TechCrunchTask task;
+    IResultCallback callback;
     //endregion
 }

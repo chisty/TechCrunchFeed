@@ -1,16 +1,18 @@
 package com.example.chisty.techcrunchfeed;
 
-import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class MainActivity extends AppCompatActivity implements IResultCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +26,21 @@ public class MainActivity extends AppCompatActivity {
             taskFragment= (PlaceholderFragment)getSupportFragmentManager().findFragmentByTag("TaskFragment");
         }
         taskFragment.StartTask();
+
+        articlesListView = (ListView) findViewById(R.id.articlesListView);
     }
 
+    @Override
+    public void OnPreExecute() {
 
-    //region Property
+    }
+
+    @Override
+    public void OnPostExecute(ArrayList<HashMap<String, String>> result) {
+        articlesListView.setAdapter(new MyAdapter(this, result));
+    }
+
     PlaceholderFragment taskFragment;
-    //endregion
-
+    ListView articlesListView;
 }
+

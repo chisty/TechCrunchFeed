@@ -10,7 +10,7 @@ import android.widget.Toast;
 public class Helper {
 
     public static void Log(String message){
-        Log.i("VIVZ", message);
+        Log.d("Logger", message);
     }
 
     public static void Show(Context context, String message){
